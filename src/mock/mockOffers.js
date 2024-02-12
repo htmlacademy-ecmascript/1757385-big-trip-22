@@ -1,3 +1,5 @@
+import { getRandomArrayElement } from '../utils/utils';
+
 const mockOffers = [
   {
     id: '1',
@@ -44,6 +46,27 @@ const mockOffers = [
     title: 'Switch to comfort',
     price: 100,
   },
+  {
+    id: '10',
+    title: 'Add meal',
+    price: 15,
+  },
+  {
+    id: '11',
+    title: 'Choose seats',
+    price: 5,
+  },
+  {
+    id: '12',
+    title: 'Travel by train',
+    price: 40,
+  },
 ];
 
-export const getOffersById = (id) => mockOffers.find((offer) => offer.id === id);
+const getOffers = () => mockOffers;
+
+const getOfferById = (id) => mockOffers.find((offer) => offer.id === id);
+
+const getRandomOffer = () => getRandomArrayElement(mockOffers);
+
+export { getOfferById, getOffers, getRandomOffer };

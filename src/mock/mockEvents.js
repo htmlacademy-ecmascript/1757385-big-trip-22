@@ -108,4 +108,7 @@ const mockPoints = [
   },
 ];
 
-export const getRandomPoint = () => getRandomArrayElement(mockPoints);
+const getRandomEvent = () => getRandomArrayElement(mockPoints);
+const getEventById = (id) => mockPoints.find((point) => point.id === id);
+
+export { getRandomEvent, getEventById };

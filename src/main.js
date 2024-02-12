@@ -1,7 +1,8 @@
 import Presenter from './presenter/presenter';
+import EventsModel from './model/EventsModel';
 
-const header = document.querySelector('.page-header');
-const content = document.querySelector('.trip-events');
+const container = document.querySelector('.page-body');
+const eventsModel = new EventsModel();
 
-const presenter = new Presenter(header, content);
+const presenter = new Presenter({container, eventsModel});
 presenter.init();
