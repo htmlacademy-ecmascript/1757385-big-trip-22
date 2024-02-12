@@ -3,13 +3,16 @@ import SortEventsView from '../view/sort-events-view';
 import EventsListView from '../view/events-list-view';
 import EventView from '../view/event-view';
 import EditEventView from '../view/edit-event-view';
+import AddEventView from '../view/add-event-view';
 import TripInfoView from '../view/trip-info-view';
 import { render, RenderPosition } from '../utils/render';
 
 export default class Presenter {
-  constructor(header, container) {
+  constructor({container, eventsModel}) {
     this._container = container;
-    this._header = header;
+    this._eventsModel = eventsModel;
+    this._eventsContainer = this._container.querySelector('.trip-events');
+    this._filterContainer = this._container.querySelector('.trip-controls__filters');
   }
 
   init() {
@@ -20,27 +23,43 @@ export default class Presenter {
   }
 
   _renderTripInfo() {
-    const tripMain = this._header.querySelector('.trip-main');
-    render(new TripInfoView(), tripMain, RenderPosition.AFTERBEGIN);
+    const tripInfoContainer = this._container.querySelector('.trip-main');
+    render(new TripInfoView(), tripInfoContainer, RenderPosition.AFTERBEGIN);
   }
 
   _renderFilters() {
-    const filters = this._header.querySelector('.trip-controls__filters');
-    render(new FiltersView(), filters);
+    render(new FiltersView(), this._filterContainer);
   }
 
   _renderSortEvents() {
-    render(new SortEventsView(), this._container);
+    render(new SortEventsView(), this._eventsContainer);
   }
 
   _renderEventsList() {
-    const listView = new EventsListView();
-    render(new EditEventView(), listView.getElement());
+    //edit on real data
+    const events = this._eventsModel.getEvents();
+    const editEvent = events[0];
+    const offers = this._eventsModel.getOffers();
+    const destinations = this._eventsModel.getDestinations();
 
-    for(let i = 0; i < 3; i++) {
-      render(new EventView(), listView.getElement());
+    const ids = new Set();
+    const editOffers = [...this._eventsModel.getOffersByIds(editEvent.offers), ...offers]
+      .filter((value) => {
+        const exists = ids.has(value.id);
+        ids.add(value.id);
+        return !exists;
+      });
+
+    const listView = new EventsListView();
+    render(new AddEventView({ destinations, offers }), listView.getElement());
+    render(new EditEventView({ destinations, offers: editOffers, event: editEvent }), listView.getElement());
+
+    for(const event of events) {
+      const eventOffers = this._eventsModel.getOffersByIds(event.offers);
+      const destination = this._eventsModel.getDestinationById(event.destination);
+      render(new EventView({ event, offers: eventOffers, destination }), listView.getElement());
     }
 
-    render(listView, this._container);
+    render(listView, this._eventsContainer);
   }
 }
