@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view';
+import AbstractView from '../framework/view/abstract-view';
 
 function createSortEventsTemplate() {
   return (
@@ -32,7 +32,7 @@ function createSortEventsTemplate() {
 }
 
 export default class SortEventsView extends AbstractView {
-  getTemplate() {
+  get template() {
     return createSortEventsTemplate();
   }
 }

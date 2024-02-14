@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view';
+import AbstractView from '../framework/view/abstract-view';
 
 function createTripInfoTemplate() {
   return (
@@ -17,7 +17,7 @@ function createTripInfoTemplate() {
 }
 
 export default class TripInfoView extends AbstractView {
-  getTemplate() {
+  get template() {
     return createTripInfoTemplate();
   }
 }

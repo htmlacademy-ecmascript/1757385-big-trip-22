@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view';
+import AbstractView from '../framework/view/abstract-view';
 import { EventTypes } from '../mock/mockEventTypes';
 import { getCalendarDateTime } from '../utils/utils';
 
@@ -132,13 +132,16 @@ const createAddEventTemplate = ({ destinations, offers }) => {
 };
 
 export default class AddEventView extends AbstractView {
+  #destinations = null;
+  #offers = null;
+
   constructor({ destinations, offers }) {
     super();
-    this._destinations = destinations;
-    this._offers = offers;
+    this.#destinations = destinations;
+    this.#offers = offers;
   }
 
-  getTemplate() {
-    return createAddEventTemplate({ destinations: this._destinations, offers: this._offers });
+  get template() {
+    return createAddEventTemplate({ destinations: this.#destinations, offers: this.#offers });
   }
 }
