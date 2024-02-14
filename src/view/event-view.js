@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view';
+import AbstractView from '../framework/view/abstract-view';
 import { EventTypes } from '../mock/mockEventTypes';
 import { extractISODate, humanizeDate, humanizeTime, getDuration } from '../utils/utils';
 
@@ -66,14 +66,36 @@ const createEventTemplate = ({ event, offers, destination }) => {
 };
 
 export default class EventView extends AbstractView {
-  constructor({ event, offers, destination }) {
+  #event = null;
+  #offers = null;
+  #destination = null;
+  #rollUpBtn = null;
+  #handlerRollUpBtnClick = null;
+
+  constructor({ event, offers, destination, onRollUpBtnClick}) {
     super();
-    this._event = event;
-    this._offers = offers;
-    this._destination = destination;
+    this.#event = event;
+    this.#offers = offers;
+    this.#destination = destination;
+    this.#handlerRollUpBtnClick = onRollUpBtnClick;
+
+    this.rollUpBtn.addEventListener('click', this.onRollUpBtnClick);
   }
 
-  getTemplate() {
-    return createEventTemplate({ event: this._event, offers: this._offers, destination: this._destination });
+  get template() {
+    return createEventTemplate({ event: this.#event, offers: this.#offers, destination: this.#destination });
   }
+
+  get rollUpBtn() {
+    if (!this.#rollUpBtn) {
+      this.#rollUpBtn = this.element.querySelector('.event__rollup-btn');
+    }
+
+    return this.#rollUpBtn;
+  }
+
+  onRollUpBtnClick = (evt) => {
+    evt.preventDefault();
+    this.#handlerRollUpBtnClick();
+  };
 }

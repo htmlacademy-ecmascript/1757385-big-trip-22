@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view';
+import AbstractView from '../framework/view/abstract-view';
 import { EventTypes } from '../mock/mockEventTypes';
 import { getCalendarDateTime } from '../utils/utils';
 import { getDestinationById } from '../mock/mockDestination';
@@ -119,14 +119,51 @@ const createEditEventTemplate = ({ destinations, offers, event }) => {
 };
 
 export default class EditEventView extends AbstractView {
-  constructor({ destinations, offers, event }) {
+  #destinations = null;
+  #offers = null;
+  #event = null;
+  #form = null;
+  #rollUpBtn = null;
+  #handlerFormSubmit = null;
+  #handlerFormClose = null;
+
+  constructor({ destinations, offers, event, onFormSubmit }) {
     super();
-    this._destinations = destinations;
-    this._offers = offers;
-    this._event = event;
+    this.#destinations = destinations;
+    this.#offers = offers;
+    this.#event = event;
+    this.#handlerFormSubmit = onFormSubmit;
+    this.#handlerFormClose = onFormSubmit;
+
+    this.form.addEventListener('submit', this.onFormSubmit);
+    this.rollUpBtn.addEventListener('click', this.onRollUpBtnClick);
   }
 
-  getTemplate() {
-    return createEditEventTemplate({ destinations: this._destinations, offers: this._offers, event: this._event });
+  get template() {
+    return createEditEventTemplate({ destinations: this.#destinations, offers: this.#offers, event: this.#event });
   }
+
+  get form() {
+    if (!this.#form) {
+      this.#form = this.element.querySelector('form.event');
+    }
+    return this.#form;
+  }
+
+  get rollUpBtn() {
+    if (!this.#rollUpBtn) {
+      this.#rollUpBtn = this.element.querySelector('.event__rollup-btn');
+    }
+    return this.#rollUpBtn;
+  }
+
+  onFormSubmit = (evt) => {
+    evt.preventDefault();
+    this.#handlerFormSubmit();
+  };
+
+  onRollUpBtnClick = (evt) => {
+    evt.preventDefault();
+    this.#handlerFormClose();
+  };
 }

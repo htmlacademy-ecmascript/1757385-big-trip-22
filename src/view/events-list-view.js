@@ -1,4 +1,4 @@
-import AbstractView from './abstract-view';
+import AbstractView from '../framework/view/abstract-view';
 
 function createEventsListTemplate() {
   return (
@@ -9,7 +9,7 @@ function createEventsListTemplate() {
 }
 
 export default class EventsListView extends AbstractView {
-  getTemplate() {
+  get template() {
     return createEventsListTemplate();
   }
 }
