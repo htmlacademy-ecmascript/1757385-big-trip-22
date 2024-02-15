@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view';
 import { EventTypes } from '../mock/mockEventTypes';
-import { extractISODate, humanizeDate, humanizeTime, getDuration } from '../utils/utils';
+import { extractISODate, humanizeDate, humanizeTime, getDuration } from '../utils/common';
 
 const createSchedule = (dateFrom, dateTo) =>
   `<div class="event__schedule">

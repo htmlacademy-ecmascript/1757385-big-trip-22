@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view';
 import { EventTypes } from '../mock/mockEventTypes';
-import { getCalendarDateTime } from '../utils/utils';
+import { getCalendarDateTime } from '../utils/common';
 import { getDestinationById } from '../mock/mockDestination';
 
 const createTypesList = (checkedType, eventId) => Object.entries(EventTypes).map(([key, value]) => {
