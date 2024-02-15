@@ -5,6 +5,7 @@ import EventView from '../view/event-view';
 import EditEventView from '../view/edit-event-view';
 import AddEventView from '../view/add-event-view';
 import TripInfoView from '../view/trip-info-view';
+import NoEventsView from '../view/no-events-views';
 import { RenderPosition, render, replace } from '../framework/render';
 
 export default class Presenter {
@@ -25,9 +26,9 @@ export default class Presenter {
   }
 
   #render() {
-    this.#renderTripInfo();
+    // this.#renderTripInfo();
     this.#renderFilters();
-    this.#renderSortEvents();
+    // this.#renderSortEvents();
     this.#renderEventsList();
   }
 
@@ -37,7 +38,8 @@ export default class Presenter {
   }
 
   #renderFilters() {
-    render(new FiltersView(), this.#filterContainer);
+    const filters = Object.keys(this.#eventsModel.filter);
+    render(new FiltersView({ filters }), this.#filterContainer);
   }
 
   #renderSortEvents() {
@@ -46,6 +48,14 @@ export default class Presenter {
 
   #renderEventsList() {
     const events = this.#eventsModel.events;
+
+    if (events.length === 0) {
+      render(new NoEventsView(), this.#eventsContainer);
+      return;
+    }
+
+    this.#renderSortEvents();
+
     const listView = new EventsListView();
     for(const event of events) {
       const eventOffers = this.#eventsModel.getOffersByIds(event.offers);
