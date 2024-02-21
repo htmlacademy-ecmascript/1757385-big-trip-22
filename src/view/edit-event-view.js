@@ -127,13 +127,13 @@ export default class EditEventView extends AbstractView {
   #handlerFormSubmit = null;
   #handlerFormClose = null;
 
-  constructor({ destinations, offers, event, onFormSubmit }) {
+  constructor({ destinations, offers, event, onFormSubmit, onFormClose }) {
     super();
     this.#destinations = destinations;
     this.#offers = offers;
     this.#event = event;
     this.#handlerFormSubmit = onFormSubmit;
-    this.#handlerFormClose = onFormSubmit;
+    this.#handlerFormClose = onFormClose;
 
     this.form.addEventListener('submit', this.onFormSubmit);
     this.rollUpBtn.addEventListener('click', this.onRollUpBtnClick);
