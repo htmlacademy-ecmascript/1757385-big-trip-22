@@ -70,16 +70,20 @@ export default class EventView extends AbstractView {
   #offers = null;
   #destination = null;
   #rollUpBtn = null;
-  #handlerRollUpBtnClick = null;
+  #favouriteBtn = null;
+  #handleRollUpBtnClick = null;
+  #handleFavoriteBtnClick = null;
 
-  constructor({ event, offers, destination, onRollUpBtnClick}) {
+  constructor({ event, offers, destination, onRollUpBtnClick, onFavoriteClick }) {
     super();
     this.#event = event;
     this.#offers = offers;
     this.#destination = destination;
-    this.#handlerRollUpBtnClick = onRollUpBtnClick;
+    this.#handleRollUpBtnClick = onRollUpBtnClick;
+    this.#handleFavoriteBtnClick = onFavoriteClick;
 
     this.rollUpBtn.addEventListener('click', this.onRollUpBtnClick);
+    this.favouriteBtn.addEventListener('click', this.onFavoriteBtnClick);
   }
 
   get template() {
@@ -94,8 +98,21 @@ export default class EventView extends AbstractView {
     return this.#rollUpBtn;
   }
 
+  get favouriteBtn() {
+    if (!this.#favouriteBtn) {
+      this.#favouriteBtn = this.element.querySelector('.event__favorite-btn');
+    }
+
+    return this.#favouriteBtn;
+  }
+
   onRollUpBtnClick = (evt) => {
     evt.preventDefault();
-    this.#handlerRollUpBtnClick();
+    this.#handleRollUpBtnClick();
+  };
+
+  onFavoriteBtnClick = (evt) => {
+    evt.preventDefault();
+    this.#handleFavoriteBtnClick();
   };
 }

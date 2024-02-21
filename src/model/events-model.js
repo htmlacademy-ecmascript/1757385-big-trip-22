@@ -1,4 +1,4 @@
-import { getRandomEvent, getEventById } from '../mock/mockEvents';
+import { getRandomEvent } from '../mock/mockEvents';
 import { getDestinationById, getDestinations } from '../mock/mockDestination';
 import { getOfferById, getOffers } from '../mock/mockOffers';
 import { filter } from '../utils/filter';
@@ -16,9 +16,9 @@ export default class EventsModel {
     return this.#events;
   }
 
-  getEventById(id) {
-    return getEventById(id);
-  }
+  // getEventById(id) {
+  //   return getEventById(id);
+  // }
 
   get destinations() {
     return this.#destinations;
@@ -38,5 +38,9 @@ export default class EventsModel {
 
   getDestinationById(id) {
     return getDestinationById(id);
+  }
+
+  updateEvent(updatedEvent) {
+    this.#events = this.#events.map((event) => event.id === updatedEvent.id ? updatedEvent : event);
   }
 }
